@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.apt.repository.AptMapper">
+	<select id="selectSidoName" resultType="com.ssafy.home.apt.dto.BaseaddressDTO">
+		select distinct sidoName 
+		from baseaddress
+	</select>
+	
+	<select id="selectGugunName" resultType="com.ssafy.home.apt.dto.BaseaddressDTO">
+		select distinct gugunName 
+		from baseaddress 
+		where sidoName = #{sidoName}
+	</select>
+	
+	<select id="selectDongName" parameterType="com.ssafy.home.apt.dto.BaseaddressDTO" resultType="com.ssafy.home.apt.dto.BaseaddressDTO">
+		select distinct dongName 
+		from baseaddress 
+		where sidoName = #{sidoName} and gugunName = #{gugunName}
+	</select>
+	
+	<select id="selectDongcode" parameterType="com.ssafy.home.apt.dto.BaseaddressDTO" resultType="String">
+		select dongcode 
+		from dongcode 
+		where dongname=#{dongName} and sidoName = #{sidoName}
+	</select>
+	
+	<select id="selectList" parameterType="com.ssafy.home.apt.dto.HouseListDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
+		select hi.apartmentName, hd.floor, hi.dong as 'dongName', hd.dealYear, hd.dealMonth, hd.area, hd.dealamount, hi.lat, hi.lng, hd.aptcode
+         from housedeal hd, houseinfo hi
+         where hd.aptCode = hi.aptcode and hi.dongcode = #{dongCode}
+         and dealyear = #{dealYear} and dealmonth = #{dealMonth} 
+         limit #{startRow}, #{count}
+	</select>
+	
+	<select id="selectTotalCount" parameterType="com.ssafy.home.apt.dto.HouseListDTO" resultType="int">
+		select count(hi.apartmentName)
+        from housedeal hd, houseinfo hi
+        where hd.aptCode = hi.aptcode and hi.dongcode = #{dongCode}
+        and dealyear = #{dealYear} and dealmonth = #{dealMonth} 
+	</select>
+	
+	 <select id="selectRead" parameterType="com.ssafy.home.apt.dto.HouseListDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
+	 	select hi.apartmentName, hi.roadName, hi.jibun, hi.dong, hi.buildYear, hd.dealAmount, hd.area, hd.floor, hd.dealYear, hd.dealMonth, hi.lat, hi.lng, hi.dong as 'dongName', hd.aptcode
+		from housedeal hd, houseinfo hi
+		where hd.aptCode = hi.aptcode and hi.apartmentName=#{apartmentName} and hd.floor=#{floor}
+		and dealyear = #{dealYear} and dealmonth = #{dealMonth};
+	 </select>
+	
+</mapper>
