@@ -17,14 +17,19 @@ public class BikeController {
 		this.service = service;
 	}
 
-	@GetMapping("/insert")
-	public ResponseEntity<?> insert(){
-		int result = service.inputBikeInfo();
-		
-		if(result == 1) {
-			return new ResponseEntity<String>("success", HttpStatus.OK);
-		}else {
-			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-		}
+//	@GetMapping("/insert")
+//	public ResponseEntity<?> insert(){
+//		int result = service.inputBikeInfo();
+//
+//		if(result == 1) {
+//			return new ResponseEntity<String>("success", HttpStatus.OK);
+//		}else {
+//			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+//		}
+//	}
+
+	@GetMapping("/test")
+	public ResponseEntity<?> test(){
+		return new ResponseEntity<String>("success", HttpStatus.OK);
 	}
 }

@@ -43,7 +43,7 @@ public class BikeUtil {
 			BikeDTO bike = new BikeDTO();
 			JsonObject bikeInfo = (JsonObject) row.get(i);
 			System.out.println(bikeInfo.toString());
-			String rentId = bikeInfo.get("RENT_NO").toString();
+			String rentId = bikeInfo.get("RENT_NO").toString().replace("\"", "");
 			String location = bikeInfo.get("STA_LOC").toString();
 			String rentName = bikeInfo.get("RENT_NM").toString();
 			String address1 = bikeInfo.get("STA_ADD1").toString();

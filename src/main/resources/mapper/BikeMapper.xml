@@ -3,7 +3,7 @@
 <mapper namespace="com.ssafy.home.bike.repository.BikeMapper">
 
 	<insert id="insert" parameterType="com.ssafy.home.bike.dto.BikeDTO">
-		INSERT INTO BIKEINFO (rentId, rentName, address1, address2, lat, lng) 
+		INSERT INTO BIKEINFO (rent_id, rent_name, address1, address2, lat, lng)
 		VALUES (#{rentId}, #{rentName}, #{address1}, #{address2}, #{lat}, #{lng})
 	</insert>
 </mapper>
