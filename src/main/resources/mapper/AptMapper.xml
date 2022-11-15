@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="selectList" parameterType="com.ssafy.home.apt.dto.HouseListDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
-		select hd.no, hi.apartmentName, hd.floor, hi.dong as 'dongName', hd.dealYear, hd.dealMonth, hd.area, hd.dealamount, hi.lat, hi.lng, hd.aptcode
+		select hd.no, hi.apartmentName, hd.floor, hi.dong as 'dongName', hd.dealYear, hd.dealMonth, hd.area, hd.dealamount, hi.lat, hi.lng, hd.aptcode, hi.buildYear, hi.jibun, hi.roadName
          from housedeal hd, houseinfo hi
          where hd.aptCode = hi.aptcode and hi.dongcode = #{dongCode}
          and dealyear = #{dealYear} and dealmonth = #{dealMonth} 
