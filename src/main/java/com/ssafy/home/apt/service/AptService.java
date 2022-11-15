@@ -14,7 +14,7 @@ import com.ssafy.home.apt.repository.AptMapper;
 @Service
 public class AptService {
 	
-	private static final int COUNT_PER_PAGE = 10;
+	private static final int COUNT_PER_PAGE = 4;
 	
 	private final AptMapper dao;
 	
