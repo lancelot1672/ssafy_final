@@ -37,6 +37,7 @@ public class AptController {
 	
 	@GetMapping("/dongName")
 	public ResponseEntity<?> donglist(@RequestParam String sidoName, @RequestParam String gugunName){
+		// System.out.println(aptService.getDongNames(sidoName, gugunName));
 		return new ResponseEntity<List<BaseaddressDTO>>(aptService.getDongNames(sidoName, gugunName), HttpStatus.ACCEPTED);
 	}
 	

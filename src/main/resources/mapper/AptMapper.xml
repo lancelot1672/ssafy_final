@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="selectDongName" parameterType="com.ssafy.home.apt.dto.BaseaddressDTO" resultType="com.ssafy.home.apt.dto.BaseaddressDTO">
-		select distinct dongName 
+		select distinct dongName, dongCode, lat, lng
 		from baseaddress 
 		where sidoName = #{sidoName} and gugunName = #{gugunName}
 	</select>
