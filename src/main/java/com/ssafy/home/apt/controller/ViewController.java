@@ -20,8 +20,8 @@ public class ViewController {
 	AptService aptService;
 	
 	@GetMapping("/houseRead")
-	public ResponseEntity<HousedealinfoDTO> houseRead(@RequestParam(value="apartmentName") String apartmentName, @RequestParam String floor, @RequestParam int dealYear, @RequestParam int dealMonth){		
-		return new ResponseEntity<HousedealinfoDTO>(aptService.gethouseRead(apartmentName, floor, dealYear, dealMonth), HttpStatus.ACCEPTED);
+	public ResponseEntity<HousedealinfoDTO> houseRead(long no){
+		return new ResponseEntity<HousedealinfoDTO>(aptService.gethouseRead(no), HttpStatus.ACCEPTED);
 	}
 	@GetMapping("/join")
 	public String signup() {

@@ -63,8 +63,8 @@ public class AptService {
 		return result;
 	}
 
-	public HousedealinfoDTO gethouseRead(String apartmentName, String floor, int dealYear,int dealMonth){
-		return dao.selectRead(apartmentName, floor, dealYear, dealMonth);
+	public HousedealinfoDTO gethouseRead(long no){
+		return dao.selectOne(no);
 	}
 	
 }
