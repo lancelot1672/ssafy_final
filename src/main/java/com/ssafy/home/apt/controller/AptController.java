@@ -53,6 +53,7 @@ public class AptController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<?> HouseList(@RequestParam String dongCode, @RequestParam int dealYear,@RequestParam int dealMonth,@RequestParam(value="page", defaultValue = "1") int page){
+
 		return new ResponseEntity<Map<String, Object>>(aptService.makePage(dongCode, dealYear, dealMonth, page), HttpStatus.ACCEPTED);
 	}
 	

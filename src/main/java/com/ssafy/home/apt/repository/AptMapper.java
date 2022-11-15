@@ -23,5 +23,5 @@ public interface AptMapper {
 
 	public int selectTotalCount(String dongCode, int dealYear, int dealMonth);
 
-	public HousedealinfoDTO selectRead(@Param("apartmentName") String apartmentName, @Param("floor") String floor, @Param("dealYear") int dealYear, @Param("dealMonth") int dealMonth);
+	public HousedealinfoDTO selectOne(long no);
 }

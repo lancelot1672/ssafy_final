@@ -1,6 +1,7 @@
 package com.ssafy.home.apt.dto;
 
 public class HousedealinfoDTO {
+	private long no;
     private String apartmentName;
     private String floor;
     private String area;
@@ -15,10 +16,9 @@ public class HousedealinfoDTO {
     private String roadName;
     private String jibun;
 	public HousedealinfoDTO() {	}
-	
-	public HousedealinfoDTO(String apartmentName, String floor, String area, String dongName, String dealAmount,
-			String lat, String lng, int dealYear, int dealMonth, String aptCode, String buildYear, String roadName,
-			String jibun) {
+
+	public HousedealinfoDTO(long no, String apartmentName, String floor, String area, String dongName, String dealAmount, String lat, String lng, int dealYear, int dealMonth, String aptCode, String buildYear, String roadName, String jibun) {
+		this.no = no;
 		this.apartmentName = apartmentName;
 		this.floor = floor;
 		this.area = area;
@@ -34,6 +34,13 @@ public class HousedealinfoDTO {
 		this.jibun = jibun;
 	}
 
+	public long getNo() {
+		return no;
+	}
+
+	public void setNo(long no) {
+		this.no = no;
+	}
 	public String getApartmentName() {
 		return apartmentName;
 	}

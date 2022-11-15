@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="selectList" parameterType="com.ssafy.home.apt.dto.HouseListDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
-		select hi.apartmentName, hd.floor, hi.dong as 'dongName', hd.dealYear, hd.dealMonth, hd.area, hd.dealamount, hi.lat, hi.lng, hd.aptcode
+		select hd.no, hi.apartmentName, hd.floor, hi.dong as 'dongName', hd.dealYear, hd.dealMonth, hd.area, hd.dealamount, hi.lat, hi.lng, hd.aptcode
          from housedeal hd, houseinfo hi
          where hd.aptCode = hi.aptcode and hi.dongcode = #{dongCode}
          and dealyear = #{dealYear} and dealmonth = #{dealMonth} 
@@ -39,11 +39,10 @@
         and dealyear = #{dealYear} and dealmonth = #{dealMonth} 
 	</select>
 	
-	 <select id="selectRead" parameterType="com.ssafy.home.apt.dto.HouseListDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
-	 	select hi.apartmentName, hi.roadName, hi.jibun, hi.dong, hi.buildYear, hd.dealAmount, hd.area, hd.floor, hd.dealYear, hd.dealMonth, hi.lat, hi.lng, hi.dong as 'dongName', hd.aptcode
-		from housedeal hd, houseinfo hi
-		where hd.aptCode = hi.aptcode and hi.apartmentName=#{apartmentName} and hd.floor=#{floor}
-		and dealyear = #{dealYear} and dealmonth = #{dealMonth};
+	 <select id="selectOne" parameterType="long" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
+		 select hd.no, hi.apartmentName, hd.floor, hi.dong as 'dongName', hd.dealYear, hd.dealMonth, hd.area, hd.dealamount, hi.lat, hi.lng, hd.aptcode
+		 from housedeal hd join houseinfo hi
+		 on hd.aptcode = hi.aptcode where hd.no = #{no};
 	 </select>
 	
 </mapper>
