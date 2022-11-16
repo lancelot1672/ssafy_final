@@ -4,43 +4,43 @@
 	
 
 	<insert id="writeBoard" parameterType="com.ssafy.home.board.dto.BoardDTO" useGeneratedKeys="true" keyProperty="bno" keyColumn="BNO"> 
-		INSERT INTO BOARD(TITLE, user_id, CONTENT, regtime, sido, gugun)
+		INSERT INTO QNA_BOARD(TITLE, user_id, CONTENT, regtime, sido, gugun)
 		VALUES (#{title},#{user_id},#{content},NOW(),#{sido},#{gugun})
 	</insert>
 
 	<update id="updateHit" parameterType="int"> 
-		UPDATE BOARD SET
+		UPDATE QNA_BOARD SET
 		hit = hit+1
 		WHERE BNO = #{bno}
 	</update>
 
 	<select id="selectList" resultType="com.ssafy.home.board.dto.BoardDTO"> <!-- rrrr이라는 resultMap에 가서 달라지는 것만 담도록함, 따라가서 담기도록 하는 것 -->
 		SELECT BNO, TITLE, content, user_id, regtime, hit, sido, gugun <!-- 이름이 달라서 write_date, read_count 는 안들어갈 수 있다 => resultMap -->
-		FROM BOARD
-		WHERE gugun = #{sido}
+		FROM QNA_BOARD
+		WHERE gugun = #{gugun}
 		ORDER BY BNO DESC
 		LIMIT #{start}, #{cnt} <!-- 파라미터를 따로 안잡아도 된다. -->
 	</select>
 		
 	<select id="getTotalCount" resultType="int">
 		SELECT COUNT(*)
-		FROM BOARD
+		FROM QNA_BOARD
 	</select>
 	
 	<select id="selectOne" resultType="com.ssafy.home.board.dto.BoardDTO">
 		SELECT BNO, TITLE, user_id, regtime, hit, CONTENT, sido, gugun
-		FROM BOARD
+		FROM QNA_BOARD
 		WHERE BNO = #{bno}
 	</select>
 	
 	<update id="modifyBoard" parameterType="com.ssafy.home.board.dto.BoardDTO">
-		UPDATE BOARD
+		UPDATE QNA_BOARD
 		SET TITLE=#{title}, CONTENT=#{content} 
 		WHERE BNO = #{bno}
 	</update>
 
 	<delete id="deleteBoard" parameterType="int">
-		DELETE FROM BOARD WHERE BNO = #{bno}
+		DELETE FROM QNA_BOARD WHERE BNO = #{bno}
 	</delete>
 
 </mapper>

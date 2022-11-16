@@ -27,8 +27,8 @@ public class BoardController {
 	BoardService bservice;
 	
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam String sido) {
-		return new ResponseEntity<Map<String, Object>>(bservice.makePage(page, sido), HttpStatus.ACCEPTED);
+	public ResponseEntity<Map<String, Object>> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "gugun", defaultValue = "종로구") String gugun) {
+		return new ResponseEntity<Map<String, Object>>(bservice.makePage(page, gugun), HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping

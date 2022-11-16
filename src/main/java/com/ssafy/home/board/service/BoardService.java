@@ -18,7 +18,7 @@ public class BoardService {
 	private BoardMapper dao;
 
 	// list 페이지
-	public Map<String, Object> makePage(int page, String sido) { // 현재 페이지
+	public Map<String, Object> makePage(int page, String gugun) { // 현재 페이지
 		/// 총게시글 수 구하기
 		int totalCount = dao.getTotalCount(); // 총게시글 수
 		int totalPage = totalCount / COUNT_PER_PAGE; // 55 / 10 = 5
@@ -30,7 +30,7 @@ public class BoardService {
 		if (endPage > totalPage)
 			endPage = totalPage;
 		int startRow = (page - 1) * COUNT_PER_PAGE; // (1-1)*10=0, (2-1)* 10=10, (3-1)*10=20
-		List<BoardDTO> boardList = dao.selectList(startRow, COUNT_PER_PAGE, sido);
+		List<BoardDTO> boardList = dao.selectList(startRow, COUNT_PER_PAGE, gugun);
 		//////////////// 페이지에 보여줄 모든 데이터 확보 완료//////////////////////////
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("startPage", startPage);
