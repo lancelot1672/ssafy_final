@@ -12,7 +12,7 @@ import com.ssafy.home.board.dto.BoardDTO;
 public interface BoardMapper {
 	public int writeBoard(BoardDTO boardDto);
 	public List<BoardDTO> selectList(@Param("start") int startRow, @Param("cnt") int count, @Param(value = "gugun") String gugun);
-	public int getTotalCount();
+	public int getTotalCount(@Param("gugun") String gugun);
 	public BoardDTO selectOne(int bno);
 	public void updateHit(int bno); // 조회수
 	public int modifyBoard(BoardDTO boardDto);

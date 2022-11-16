@@ -20,7 +20,7 @@ public class BoardService {
 	// list 페이지
 	public Map<String, Object> makePage(int page, String gugun) { // 현재 페이지
 		/// 총게시글 수 구하기
-		int totalCount = dao.getTotalCount(); // 총게시글 수
+		int totalCount = dao.getTotalCount(gugun); // 총게시글 수
 		int totalPage = totalCount / COUNT_PER_PAGE; // 55 / 10 = 5
 		if (totalCount % COUNT_PER_PAGE > 0) // 55 % 10 = 3이면 페이지 하나 더 필요함
 			totalPage++;
