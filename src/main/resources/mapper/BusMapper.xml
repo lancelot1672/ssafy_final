@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.bus.repository.BusMapper">
+	<insert id="insert" parameterType="com.ssafy.home.bus.dto.BusDTO">
+		INSERT INTO BUS (stop_nm, ycode, stop_no, xcode)
+		VALUES (#{stop_nm}, #{ycode}, #{stop_no}, #{xcode})
+	</insert>
+	
+	<select id="select" resultType="com.ssafy.home.bus.dto.BusDTO">
+		SELECT stop_nm, ycode, stop_no, xcode 
+		FROM bus;
+	</select>
+
+</mapper>
