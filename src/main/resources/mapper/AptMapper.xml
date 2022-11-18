@@ -44,5 +44,11 @@
 		 from housedeal hd join houseinfo hi
 		 on hd.aptcode = hi.aptcode where hd.no = #{no};
 	 </select>
+	 
+	 <select id="selectTransportation" parameterType="com.ssafy.home.apt.dto.BaseaddressDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
+		select distinct (hi.apartmentName), hi.lat, hi.lng
+		from housedeal hd, houseinfo hi
+		where hd.aptCode = hi.aptcode and hi.dong = #{dongName}
+	 </select>
 	
 </mapper>

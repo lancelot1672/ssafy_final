@@ -24,4 +24,6 @@ public interface AptMapper {
 	public int selectTotalCount(String dongCode, int dealYear, int dealMonth);
 
 	public HousedealinfoDTO selectOne(long no);
+
+	public List<HousedealinfoDTO> selectTransportation(String dongName);
 }

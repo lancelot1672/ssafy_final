@@ -1,11 +1,12 @@
-package com.ssafy.home.bus.dto;
+package com.ssafy.home.station.dto;
 
 public class BusDTO {
+
 	private String stop_nm;
 	private String ycode;
 	private String stop_no;
 	private String xcode;
-	public BusDTO() {}
+
 	public BusDTO(String stop_nm, String ycode, String stop_no, String xcode) {
 		this.stop_nm = stop_nm;
 		this.ycode = ycode;
@@ -49,7 +50,5 @@ public class BusDTO {
 	public String toString() {
 		return "BusDTO [stop_nm=" + stop_nm + ", ycode=" + ycode + ", stop_no=" + stop_no + ", xcode=" + xcode + "]";
 	}
-	
-	
-	
+
 }

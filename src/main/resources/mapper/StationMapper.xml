@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.station.repository.StationMapper">
+
+	<select id="selectStationList" resultType="com.ssafy.home.station.dto.StationDTO">
+		SELECT line, name, code, lat, lng 
+		FROM station;
+	</select>
+	
+	<select id="selectBusList" resultType="com.ssafy.home.station.dto.BusDTO">
+		SELECT stop_nm, ycode, stop_no, xcode
+		FROM bus;
+	</select>
+
+
+</mapper>
