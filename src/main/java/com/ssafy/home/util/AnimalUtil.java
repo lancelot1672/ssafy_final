@@ -1,5 +1,8 @@
 package com.ssafy.home.util;
 
+import com.google.gson.*;
+import com.ssafy.home.bike.dto.BikeDTO;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,14 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.ssafy.home.bike.dto.BikeDTO;
-
-public class BikeUtil {
+public class AnimalUtil {
 	public static void main(String[] args) {
 		List<BikeDTO> list = execute();
 		System.out.println(list.size());
