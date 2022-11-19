@@ -7,17 +7,20 @@ public class BikeDTO {
 	private String address2;
 	private String lat;
 	private String lng;
+	private double dis;
 
 	public BikeDTO() {
 	}
 
-	public BikeDTO(int rent_id, String rent_name, String address1, String address2, String lat, String lng) {
+	public BikeDTO(int rent_id, String rent_name, String address1, String address2, String lat, String lng,
+			double dis) {
 		this.rent_id = rent_id;
 		this.rent_name = rent_name;
 		this.address1 = address1;
 		this.address2 = address2;
 		this.lat = lat;
 		this.lng = lng;
+		this.dis = dis;
 	}
 
 	public int getRent_id() {
@@ -68,10 +71,18 @@ public class BikeDTO {
 		this.lng = lng;
 	}
 
+	public double getDis() {
+		return dis;
+	}
+
+	public void setDis(double dis) {
+		this.dis = dis;
+	}
+
 	@Override
 	public String toString() {
 		return "BikeDTO [rent_id=" + rent_id + ", rent_name=" + rent_name + ", address1=" + address1 + ", address2="
-				+ address2 + ", lat=" + lat + ", lng=" + lng + "]";
+				+ address2 + ", lat=" + lat + ", lng=" + lng + ", dis=" + dis + "]";
 	}
 
 }

@@ -6,13 +6,19 @@ public class StationDTO {
 	private String code;
 	private String lat;
 	private String lng;
+	private double distance;
 
-	public StationDTO(String line, String name, String code, String lat, String lng) {
+	public StationDTO() {
+	}
+
+	public StationDTO(String line, String name, String code, String lat, String lng, double distance) {
+		super();
 		this.line = line;
 		this.name = name;
 		this.code = code;
 		this.lat = lat;
 		this.lng = lng;
+		this.distance = distance;
 	}
 
 	public String getLine() {
@@ -55,9 +61,18 @@ public class StationDTO {
 		this.lng = lng;
 	}
 
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
 	@Override
 	public String toString() {
-		return "StationDTO [line=" + line + ", name=" + name + ", code=" + code + ", lat=" + lat + ", lng=" + lng + "]";
+		return "StationDTO [line=" + line + ", name=" + name + ", code=" + code + ", lat=" + lat + ", lng=" + lng
+				+ ", distance=" + distance + "]";
 	}
 
 }

@@ -122,10 +122,12 @@ public class StationService {
 				if (dis <= 500) {
 					shortDisCnt++;
 					shortDisStation.add(new StationDTO(stationList.get(j).getLine(), stationList.get(j).getName(),
-							stationList.get(j).getCode(), stationList.get(j).getLat(), stationList.get(j).getLng()));
+							stationList.get(j).getCode(), stationList.get(j).getLat(), stationList.get(j).getLng(),
+							dis));
 				}
 			}
-			// System.out.println("지하철역  1000m 이내 = 아파트 이름 : " + tmpHouseList.get(i).getApartmentName() + " 갯수 : "+ shortDisCnt);
+			// System.out.println("지하철역 1000m 이내 = 아파트 이름 : " +
+			// tmpHouseList.get(i).getApartmentName() + " 갯수 : "+ shortDisCnt);
 			// 지하철역 점수 계산
 			sum = sum + shortDisCnt * 5;
 
@@ -139,12 +141,12 @@ public class StationService {
 				if (dis <= 100) {
 					shortDisCnt++;
 					shortDisBus.add(new BusDTO(busList.get(j).getStop_nm(), busList.get(j).getYcode(),
-							busList.get(j).getStop_no(), busList.get(j).getXcode()));
+							busList.get(j).getStop_no(), busList.get(j).getXcode(), dis));
 				}
 			}
 			sum = sum + shortDisCnt * 3;
-			System.out.println("따릉이  100m 이내 = 아파트 이름 : " + tmpHouseList.get(i).getApartmentName() + " 갯수 : "+ shortDisCnt);
-			
+			//System.out.println( "따릉이  100m 이내 = 아파트 이름 : " + tmpHouseList.get(i).getApartmentName() + " 갯수 : " + shortDisCnt);
+
 			// step3 : 따릉이
 			shortDisCnt = 0;
 			List<BikeDTO> shortDisBike = new ArrayList<>();
@@ -156,7 +158,7 @@ public class StationService {
 					shortDisCnt++;
 					shortDisBike.add(new BikeDTO(bikeList.get(j).getRent_id(), bikeList.get(j).getRent_name(),
 							bikeList.get(j).getAddress1(), bikeList.get(j).getAddress2(), bikeList.get(j).getLat(),
-							bikeList.get(j).getLng()));
+							bikeList.get(j).getLng(), dis));
 				}
 			}
 			sum = sum + shortDisCnt * 1;
