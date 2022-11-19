@@ -12,5 +12,9 @@
 		FROM bus;
 	</select>
 
+	<select id="selectBikeList" resultType="com.ssafy.home.station.dto.BikeDTO">
+		SELECT rent_id, rent_name, address1, address2, lat, lng
+		FROM bikeinfo;
+	</select>
 
 </mapper>
