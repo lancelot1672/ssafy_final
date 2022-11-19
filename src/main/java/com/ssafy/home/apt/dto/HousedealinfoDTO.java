@@ -15,8 +15,8 @@ public class HousedealinfoDTO {
     private String buildYear;
     private String roadName;
     private String jibun;
-	public HousedealinfoDTO() {	}
-
+    
+    public HousedealinfoDTO() {}
 	public HousedealinfoDTO(long no, String apartmentName, String floor, String area, String dongName, String dealAmount, String lat, String lng, int dealYear, int dealMonth, String aptCode, String buildYear, String roadName, String jibun) {
 		this.no = no;
 		this.apartmentName = apartmentName;
@@ -34,6 +34,10 @@ public class HousedealinfoDTO {
 		this.jibun = jibun;
 	}
 
+	public HousedealinfoDTO(String apartmentName, int cnt) {
+		this.apartmentName = apartmentName;
+	}
+	
 	public long getNo() {
 		return no;
 	}
