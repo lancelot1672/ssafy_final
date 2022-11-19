@@ -1,7 +1,7 @@
 package com.ssafy.home.util;
 
 import com.google.gson.*;
-import com.ssafy.home.bike.dto.BikeDTO;
+//import com.ssafy.home.bike.dto.BikeDTO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,52 +14,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimalUtil {
-	public static void main(String[] args) {
-		List<BikeDTO> list = execute();
-		System.out.println(list.size());
-	}
-
-	public static List<BikeDTO> execute() {
-		StringBuilder apiURL = new StringBuilder(
-				"http://openapi.seoul.go.kr:8088/487965454f6c616e37304b46496f4c/json/tbCycleStationInfo/1/1000/");
-
-		System.out.println(apiURL.toString());
-		String responseBody = get(apiURL.toString());
-		//System.out.println(responseBody);
-
-		Gson gson = new Gson();
-		JsonParser parser = new JsonParser();
-		JsonElement element = parser.parse(responseBody);
-		JsonObject body = element.getAsJsonObject().get("stationInfo").getAsJsonObject();
-
-		JsonArray row = body.getAsJsonObject().get("row").getAsJsonArray();
-		System.out.println(row.toString());
-		List<BikeDTO> list = new ArrayList<>();
-		for(int i=0; i<1000; i++) {
-			BikeDTO bike = new BikeDTO();
-			JsonObject bikeInfo = (JsonObject) row.get(i);
-//			System.out.println(bikeInfo.toString());
-			String rentId = bikeInfo.get("RENT_NO").toString().replace("\"", "");
-			String location = bikeInfo.get("STA_LOC").toString().replace("\"", "");
-			String rentName = bikeInfo.get("RENT_NM").toString().replace("\"", "");
-			String address1 = bikeInfo.get("STA_ADD1").toString().replace("\"", "");
-			String address2 = bikeInfo.get("STA_ADD2").toString().replace("\"", "");
-			String lat = bikeInfo.get("STA_LAT").toString().replace("\"", "");
-			String lng = bikeInfo.get("STA_LONG").toString().replace("\"", "");
-			
-			bike.setRentId(Integer.parseInt(rentId));
-			bike.setLocation(location);
-			bike.setRentName(rentName);
-			bike.setAddress1(address1);
-			bike.setAddress2(address2);
-			bike.setLat(lat);
-			bike.setLng(lng);
-			
-			list.add(bike);
-		}
-		System.out.println(list.size());
-		return list;
-	}
+//	public static void main(String[] args) {
+//		List<BikeDTO> list = execute();
+//		System.out.println(list.size());
+//	}
+//
+//	public static List<BikeDTO> execute() {
+//		StringBuilder apiURL = new StringBuilder(
+//				"http://openapi.seoul.go.kr:8088/487965454f6c616e37304b46496f4c/json/tbCycleStationInfo/1/1000/");
+//
+//		System.out.println(apiURL.toString());
+//		String responseBody = get(apiURL.toString());
+//		//System.out.println(responseBody);
+//
+//		Gson gson = new Gson();
+//		JsonParser parser = new JsonParser();
+//		JsonElement element = parser.parse(responseBody);
+//		JsonObject body = element.getAsJsonObject().get("stationInfo").getAsJsonObject();
+//
+//		JsonArray row = body.getAsJsonObject().get("row").getAsJsonArray();
+//		System.out.println(row.toString());
+//		List<BikeDTO> list = new ArrayList<>();
+//		for(int i=0; i<1000; i++) {
+//			BikeDTO bike = new BikeDTO();
+//			JsonObject bikeInfo = (JsonObject) row.get(i);
+////			System.out.println(bikeInfo.toString());
+//			String rentId = bikeInfo.get("RENT_NO").toString().replace("\"", "");
+//			String location = bikeInfo.get("STA_LOC").toString().replace("\"", "");
+//			String rentName = bikeInfo.get("RENT_NM").toString().replace("\"", "");
+//			String address1 = bikeInfo.get("STA_ADD1").toString().replace("\"", "");
+//			String address2 = bikeInfo.get("STA_ADD2").toString().replace("\"", "");
+//			String lat = bikeInfo.get("STA_LAT").toString().replace("\"", "");
+//			String lng = bikeInfo.get("STA_LONG").toString().replace("\"", "");
+//			
+//			bike.setRentId(Integer.parseInt(rentId));
+//			bike.setLocation(location);
+//			bike.setRentName(rentName);
+//			bike.setAddress1(address1);
+//			bike.setAddress2(address2);
+//			bike.setLat(lat);
+//			bike.setLng(lng);
+//			
+//			list.add(bike);
+//		}
+//		System.out.println(list.size());
+//		return list;
+//	}
 
 	private static String get(String apiUrl) {
 		HttpURLConnection con = connect(apiUrl);

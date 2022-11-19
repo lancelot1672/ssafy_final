@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.home.apt.dto.HousedealinfoDTO;
 import com.ssafy.home.apt.repository.AptMapper;
+import com.ssafy.home.station.dto.AptStationDTO;
+import com.ssafy.home.station.dto.BikeDTO;
 import com.ssafy.home.station.dto.BusDTO;
 import com.ssafy.home.station.dto.StationDTO;
 import com.ssafy.home.station.repository.StationMapper;
@@ -47,10 +49,32 @@ public class StationService {
 	static class Point implements Comparable<Point> {
 		String aptName;
 		int cnt;
+		String dongName;
+		String aptCode;
+		String buildYear;
+		String roadName;
+		String jibun;
+		String lat;
+		String lng;
+		List<StationDTO> stationList;
+		List<BusDTO> busList;
+		List<BikeDTO> bikeList;
 
-		public Point(String aptName, int cnt) {
+		public Point(String aptName, int cnt, String dongName, String aptCode, String buildYear, String roadName,
+				String jibun, String lat, String lng, List<StationDTO> stationList, List<BusDTO> busList,
+				List<BikeDTO> bikeList) {
 			this.aptName = aptName;
 			this.cnt = cnt;
+			this.dongName = dongName;
+			this.aptCode = aptCode;
+			this.buildYear = buildYear;
+			this.roadName = roadName;
+			this.jibun = jibun;
+			this.lat = lat;
+			this.lng = lng;
+			this.stationList = stationList;
+			this.busList = busList;
+			this.bikeList = bikeList;
 		}
 
 		@Override
@@ -65,12 +89,15 @@ public class StationService {
 
 	}
 
-	// 지하철
-	public List<HousedealinfoDTO> threeTP(String dongName) {
-		List<HousedealinfoDTO> result = new ArrayList<HousedealinfoDTO>();
+	// 3개 추천
+	public List<AptStationDTO> threeTP(String dongName) {
+		// 결과
+		List<AptStationDTO> result = new ArrayList<AptStationDTO>();
+		// 아파트
 		List<HousedealinfoDTO> tmpHouseList = Aptdao.selectTransportation(dongName);
 		List<StationDTO> stationList = stationDao.selectStationList();
 		List<BusDTO> busList = stationDao.selectBusList();
+		List<BikeDTO> bikeList = stationDao.selectBikeList();
 		// System.out.println(busList);
 		List<Point> arr = new ArrayList<>();
 
@@ -86,34 +113,60 @@ public class StationService {
 			// 직선거리순 count
 			int shortDisCnt = 0;
 			// step1 : 지하철역
+			List<StationDTO> shortDisStation = new ArrayList<>();
 			for (int j = 0; j < stationList.size(); j++) {
 				double stationlat = Double.parseDouble(stationList.get(j).getLat());
 				double stationlng = Double.parseDouble(stationList.get(j).getLng());
 				double dis = distance(houselat, houselng, stationlat, stationlng);
 				// System.out.println(dis);
-				if (dis <= 1000) {
+				if (dis <= 500) {
 					shortDisCnt++;
+					shortDisStation.add(new StationDTO(stationList.get(j).getLine(), stationList.get(j).getName(),
+							stationList.get(j).getCode(), stationList.get(j).getLat(), stationList.get(j).getLng(),
+							dis));
 				}
 			}
+			// System.out.println("지하철역 1000m 이내 = 아파트 이름 : " +
+			// tmpHouseList.get(i).getApartmentName() + " 갯수 : "+ shortDisCnt);
 			// 지하철역 점수 계산
-			sum = sum + shortDisCnt * 3;
+			sum = sum + shortDisCnt * 5;
 
 			// step2 : 버스정류소 역
 			shortDisCnt = 0;
+			List<BusDTO> shortDisBus = new ArrayList<>();
 			for (int j = 0; j < busList.size(); j++) {
 				double buslat = Double.parseDouble(busList.get(j).getYcode());
 				double buslng = Double.parseDouble(busList.get(j).getXcode());
 				double dis = distance(houselat, houselng, buslat, buslng);
-				if (dis <= 500) {
+				if (dis <= 100) {
 					shortDisCnt++;
+					shortDisBus.add(new BusDTO(busList.get(j).getStop_nm(), busList.get(j).getYcode(),
+							busList.get(j).getStop_no(), busList.get(j).getXcode(), dis));
 				}
 			}
-			sum = sum + shortDisCnt;
+			sum = sum + shortDisCnt * 3;
+			//System.out.println( "따릉이  100m 이내 = 아파트 이름 : " + tmpHouseList.get(i).getApartmentName() + " 갯수 : " + shortDisCnt);
 
 			// step3 : 따릉이
+			shortDisCnt = 0;
+			List<BikeDTO> shortDisBike = new ArrayList<>();
+			for (int j = 0; j < bikeList.size(); j++) {
+				double bikelat = Double.parseDouble(bikeList.get(j).getLat());
+				double bikelng = Double.parseDouble(bikeList.get(j).getLng());
+				double dis = distance(houselat, houselng, bikelat, bikelng);
+				if (dis <= 100) {
+					shortDisCnt++;
+					shortDisBike.add(new BikeDTO(bikeList.get(j).getRent_id(), bikeList.get(j).getRent_name(),
+							bikeList.get(j).getAddress1(), bikeList.get(j).getAddress2(), bikeList.get(j).getLat(),
+							bikeList.get(j).getLng(), dis));
+				}
+			}
+			sum = sum + shortDisCnt * 1;
 
-			arr.add(new Point(tmpHouseList.get(i).getApartmentName(), sum));
-
+			arr.add(new Point(tmpHouseList.get(i).getApartmentName(), sum, tmpHouseList.get(i).getDongName(),
+					tmpHouseList.get(i).getAptCode(), tmpHouseList.get(i).getBuildYear(),
+					tmpHouseList.get(i).getRoadName(), tmpHouseList.get(i).getJibun(), tmpHouseList.get(i).getLat(),
+					tmpHouseList.get(i).getLng(), shortDisStation, shortDisBus, shortDisBike));
 		}
 		// 정렬하기
 		Collections.sort(arr);
@@ -125,7 +178,11 @@ public class StationService {
 				break;
 			k++;
 			System.out.println(arr.get(i).aptName + " " + arr.get(i).cnt);
-			result.add(new HousedealinfoDTO(arr.get(i).aptName, arr.get(i).cnt));
+			result.add(new AptStationDTO(arr.get(i).aptName, arr.get(i).dongName, arr.get(i).aptCode,
+					arr.get(i).buildYear, arr.get(i).roadName, arr.get(i).jibun, arr.get(i).lat, arr.get(i).lng,
+					arr.get(i).stationList, arr.get(i).busList, arr.get(i).bikeList
+
+			));
 		}
 		// 출력하기
 		return result;

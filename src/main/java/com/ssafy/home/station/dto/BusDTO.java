@@ -6,12 +6,17 @@ public class BusDTO {
 	private String ycode;
 	private String stop_no;
 	private String xcode;
+	private double dis;
 
-	public BusDTO(String stop_nm, String ycode, String stop_no, String xcode) {
+	public BusDTO() {
+	}
+
+	public BusDTO(String stop_nm, String ycode, String stop_no, String xcode, double dis) {
 		this.stop_nm = stop_nm;
 		this.ycode = ycode;
 		this.stop_no = stop_no;
 		this.xcode = xcode;
+		this.dis = dis;
 	}
 
 	public String getStop_nm() {
@@ -46,9 +51,18 @@ public class BusDTO {
 		this.xcode = xcode;
 	}
 
+	public double getDis() {
+		return dis;
+	}
+
+	public void setDis(double dis) {
+		this.dis = dis;
+	}
+
 	@Override
 	public String toString() {
-		return "BusDTO [stop_nm=" + stop_nm + ", ycode=" + ycode + ", stop_no=" + stop_no + ", xcode=" + xcode + "]";
+		return "BusDTO [stop_nm=" + stop_nm + ", ycode=" + ycode + ", stop_no=" + stop_no + ", xcode=" + xcode
+				+ ", dis=" + dis + "]";
 	}
 
 }

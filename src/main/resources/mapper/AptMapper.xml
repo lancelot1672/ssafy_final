@@ -46,7 +46,7 @@
 	 </select>
 	 
 	 <select id="selectTransportation" parameterType="com.ssafy.home.apt.dto.BaseaddressDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
-		select distinct (hi.apartmentName), hi.lat, hi.lng
+		select distinct (hi.apartmentName), hi.lat, hi.lng, hi.dong as 'dongName', hd.aptcode, hi.buildYear, hi.jibun, hi.roadName
 		from housedeal hd, houseinfo hi
 		where hd.aptCode = hi.aptcode and hi.dong = #{dongName}
 	 </select>
