@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.animal.repository.AnimalPharmacyMapper">
+
+	<insert id="insert" parameterType="com.ssafy.home.animal.dto.AnimalHosDTO">
+		insert into animalPhar
+		(name, street_addr, site_addr, lat, lng)
+		VALUES (#{name}, #{streetAddress}, #{siteAddress}, #{lat}, #{lng})
+	</insert>
+</mapper>

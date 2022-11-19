@@ -28,4 +28,14 @@ public class AnimalController {
             return new ResponseEntity<String>("fail", HttpStatus.BAD_GATEWAY);
         }
     }
+    @PostMapping("/pharmacy")
+    public ResponseEntity<?> insertPharmacy(@RequestBody AnimalHosDTO animalHosDTO){
+        int result = animalService.inputPharmacy(animalHosDTO);
+
+        if(result == 1){
+            return new ResponseEntity<String>("success", HttpStatus.ACCEPTED);
+        }else{
+            return new ResponseEntity<String>("fail", HttpStatus.BAD_GATEWAY);
+        }
+    }
 }
