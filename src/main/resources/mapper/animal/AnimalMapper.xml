@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.animal.repository.AnimalMapper">
+	<select id="selectAnimalHosList" resultType="com.ssafy.home.animal.dto.AnimalHosDTO">
+		SELECT no, name, street_addr, site_addr, lat, lng
+		FROM animalhos where lat != ""
+	</select>
+	
+	<select id="selectAnimalPharList" resultType="com.ssafy.home.animal.dto.AnimalPharDTO">
+		SELECT no, name, street_addr, site_addr, lat, lng
+		FROM animalphar where lat != ""
+	</select>
+
+</mapper>
