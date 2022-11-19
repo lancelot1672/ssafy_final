@@ -38,4 +38,10 @@ public class AnimalController {
             return new ResponseEntity<String>("fail", HttpStatus.BAD_GATEWAY);
         }
     }
+    
+    @GetMapping("/list")
+	public ResponseEntity<?> selectList(@RequestParam String dongName){
+		return new ResponseEntity<Object>(animalService.threeAnimal(dongName) , HttpStatus.ACCEPTED);
+	}
+    
 }

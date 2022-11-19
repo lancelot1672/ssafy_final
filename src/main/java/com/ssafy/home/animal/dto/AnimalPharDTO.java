@@ -1,6 +1,6 @@
 package com.ssafy.home.animal.dto;
 
-public class AnimalHosDTO {
+public class AnimalPharDTO {
 	private int no;
 	private String name;
 	private String street_addr; // 도로명
@@ -9,10 +9,11 @@ public class AnimalHosDTO {
 	private String lng;
 	private double dis;
 
-	public AnimalHosDTO() {
+	public AnimalPharDTO() {
 	}
 
-	public AnimalHosDTO(int no, String name, String street_addr, String site_addr, String lat, String lng, double dis) {
+	public AnimalPharDTO(int no, String name, String street_addr, String site_addr, String lat, String lng,
+			double dis) {
 		this.no = no;
 		this.name = name;
 		this.street_addr = street_addr;
