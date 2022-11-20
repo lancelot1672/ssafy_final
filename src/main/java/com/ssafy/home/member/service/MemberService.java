@@ -29,11 +29,13 @@ public class MemberService {
         return sqlSession.getMapper(MemberMapper.class).userInfo(userid);
     }
 
-    public void saveRefreshToken(String userid, String refreshToken) throws Exception {
+    public int saveRefreshToken(String userid, String refreshToken) throws Exception {
         Map<String, String> map = new HashMap<String, String>();
         map.put("userid", userid);
         map.put("token", refreshToken);
-        sqlSession.getMapper(MemberMapper.class).saveRefreshToken(map);
+        int result = sqlSession.getMapper(MemberMapper.class).saveRefreshToken(map);
+
+        return result;
     }
 
     public Object getRefreshToken(String userid) throws Exception {

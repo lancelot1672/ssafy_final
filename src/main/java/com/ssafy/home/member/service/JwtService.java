@@ -97,6 +97,7 @@ public class JwtService {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
         String jwt = request.getHeader("access-token");
+        System.out.println("jwt = " + jwt);
         Jws<Claims> claims = null;
         try {
             claims = Jwts.parser().setSigningKey(SALT.getBytes("UTF-8")).parseClaimsJws(jwt);

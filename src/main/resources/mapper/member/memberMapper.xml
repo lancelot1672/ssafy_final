@@ -3,18 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.home.member.repository.MemberMapper">
-	<insert id="insert" parameterType="memberDto">
+	<insert id="insert" parameterType="com.ssafy.home.member.dto.MemberDto">
 		insert into member (user_id, user_pw, user_name, phone)
 		values (#{userId},#{userPw}, #{userName}, #{phone})
 	</insert>
 
-	<select id="login" parameterType="memberDto" resultType="memberDto">
+	<select id="login" parameterType="com.ssafy.home.member.dto.MemberDto" resultMap="member">
 		select user_name, user_id, phone
 		from member
 		where user_id = #{userId} and user_pw = #{userPw}
 	</select>
 	
-	<select id="userInfo" parameterType="string" resultType="memberDto">
+	<select id="userInfo" parameterType="string" resultMap="member">
 		select user_name, user_id
 		from member
 		where user_id = #{userid}
@@ -37,5 +37,9 @@
 		set token = #{token, jdbcType=VARCHAR}
 		where user_id = #{userid}
 	</update>
-	
+	<resultMap id="member" type="com.ssafy.home.member.dto.MemberDto">
+		<result column="user_id" property="userId"></result>
+		<result column="user_pw" property="userPw"></result>
+		<result column="user_name" property="userName"></result>
+	</resultMap>
 </mapper>

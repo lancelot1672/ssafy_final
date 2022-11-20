@@ -3,6 +3,8 @@ package com.ssafy.home.member.controller;
 import com.ssafy.home.member.dto.MemberDto;
 import com.ssafy.home.member.service.JwtService;
 import com.ssafy.home.member.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.Map;
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
 public class MemberController {
+    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final MemberService memberService;
     private final JwtService jwtService;
@@ -47,13 +50,15 @@ public class MemberController {
         HttpStatus status = null;
         try {
             MemberDto loginUser = memberService.login(memberDto);
-            System.out.println("loginUser = " + loginUser);
+            logger.info("loginUser = {}",loginUser);
             if (loginUser != null) {
                 String accessToken = jwtService.createAccessToken("userid", loginUser.getUserId());// key, data
                 String refreshToken = jwtService.createRefreshToken("userid", loginUser.getUserId());// key, data
-                memberService.saveRefreshToken(memberDto.getUserId(), refreshToken);
-//                logger.debug("로그인 accessToken 정보 : {}", accessToken);
-//                logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
+                int result = memberService.saveRefreshToken(memberDto.getUserId(), accessToken);
+                logger.info("SaveRefreshToken result: {}", result);
+                logger.info("로그인 accessToken 정보 : {}", accessToken);
+                logger.info("로그인 refreshToken 정보 : {}", refreshToken);
+
                 resultMap.put("access-token", accessToken);
                 resultMap.put("refresh-token", refreshToken);
                 resultMap.put("message", SUCCESS);
@@ -69,18 +74,20 @@ public class MemberController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-    @GetMapping("/info/{userid}")
+    @GetMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> getInfo(
-            @PathVariable("userid")  String userid,
+            @PathVariable("userId")  String userId,
             HttpServletRequest request) {
 //		logger.debug("userid : {} ", userid);
+        System.out.println("userId = " + userId);
+        System.out.println("token = " + request.getHeader("access-token"));
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         if (jwtService.checkToken(request.getHeader("access-token"))) {
-//            logger.info("사용 가능한 토큰!!!");
+            logger.debug("사용 가능한 토큰!!!");
             try {
 //				로그인 사용자 정보.
-                MemberDto memberDto = memberService.userInfo(userid);
+                MemberDto memberDto = memberService.userInfo(userId);
                 resultMap.put("userInfo", memberDto);
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
@@ -96,5 +103,26 @@ public class MemberController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody MemberDto memberDto, HttpServletRequest request)
+            throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        String token = request.getHeader("refresh-token");
+        logger.info("token : {}, memberDto : {}", token, memberDto);
+        if (jwtService.checkToken(token)) {
+            if (token.equals(memberService.getRefreshToken(memberDto.getUserId()))) {
+                String accessToken = jwtService.createAccessToken("userid", memberDto.getUserId());
+                logger.info("token : {}", accessToken);
+                logger.info("정상적으로 액세스토큰 재발급!!!");
+                resultMap.put("access-token", accessToken);
+                resultMap.put("message", SUCCESS);
+                status = HttpStatus.ACCEPTED;
+            }
+        } else {
+            logger.info("리프레쉬토큰도 사용불!!!!!!!");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 }
