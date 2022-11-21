@@ -3,6 +3,8 @@ package com.ssafy.home.apt.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.home.apt.dto.AptLikeDTO;
+import com.ssafy.home.apt.service.AptLikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +19,12 @@ import com.ssafy.home.apt.service.AptService;
 public class AptController {
 
 	private final AptService aptService;
-	
+	private final AptLikeService aptLikeService;
+
 	@Autowired
-	public AptController(AptService aptService) {
+	public AptController(AptService aptService, AptLikeService aptLikeService) {
 		this.aptService = aptService;
+		this.aptLikeService = aptLikeService;
 	}
 
 	@GetMapping("/sidoName")
@@ -56,5 +60,29 @@ public class AptController {
 
 		return new ResponseEntity<Map<String, Object>>(aptService.makePage(dongCode, dealYear, dealMonth, page), HttpStatus.ACCEPTED);
 	}
-	
+
+	@PostMapping("/like")
+	public ResponseEntity<?> like(@RequestBody AptLikeDTO aptLikeDTO){
+		System.out.println("aptLikeDTO = " + aptLikeDTO);
+
+		try {
+			aptLikeService.like(aptLikeDTO);
+			return new ResponseEntity<String>("likeSuccess", HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	@DeleteMapping("/like/{no}")
+	public ResponseEntity<?> unlike(@PathVariable long no){
+		System.out.println("no = " + no);
+
+		try {
+			aptLikeService.unlike(no);
+			return new ResponseEntity<String>("unlikeSuccess", HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

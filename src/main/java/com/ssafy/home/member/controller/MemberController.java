@@ -1,5 +1,8 @@
 package com.ssafy.home.member.controller;
 
+import com.ssafy.home.apt.dto.AptLikeDTO;
+import com.ssafy.home.apt.service.AptLikeService;
+import com.ssafy.home.apt.service.AptService;
 import com.ssafy.home.member.dto.MemberDto;
 import com.ssafy.home.member.service.JwtService;
 import com.ssafy.home.member.service.MemberService;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,14 +25,17 @@ public class MemberController {
     public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final MemberService memberService;
+    private final AptLikeService aptService;
+
     private final JwtService jwtService;
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
     @Autowired
-    public MemberController(MemberService memberService, JwtService jwtService) {
+    public MemberController(MemberService memberService, AptLikeService aptService, JwtService jwtService) {
         this.memberService = memberService;
+        this.aptService = aptService;
         this.jwtService = jwtService;
     }
     @PostMapping("/join")
@@ -84,15 +91,22 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         if (jwtService.checkToken(request.getHeader("access-token"))) {
-            logger.debug("사용 가능한 토큰!!!");
+            logger.info("사용 가능한 토큰!!!");
             try {
 //				로그인 사용자 정보.
                 MemberDto memberDto = memberService.userInfo(userId);
+
+                //관심 매물 정보
+                List<AptLikeDTO> likeList = aptService.getLikeList(userId);
+                System.out.println(likeList.toString());
                 resultMap.put("userInfo", memberDto);
+                resultMap.put("aptLike", likeList);
                 resultMap.put("message", SUCCESS);
+
                 status = HttpStatus.ACCEPTED;
             } catch (Exception e) {
 //                logger.error("정보조회 실패 : {}", e);
+                e.printStackTrace();
                 resultMap.put("message", e.getMessage());
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
