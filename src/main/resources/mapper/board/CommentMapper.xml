@@ -5,6 +5,7 @@
 		select *
 		from comment
 		where bno = #{bno}
+		order by write_date desc
 	</select>
 
 	<insert id="insert" parameterType="com.ssafy.home.board.dto.CommentDTO">
