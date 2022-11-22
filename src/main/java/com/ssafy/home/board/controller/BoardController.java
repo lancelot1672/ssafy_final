@@ -78,7 +78,7 @@ public class BoardController {
 		System.out.println(bno);
 		try {
 			List<CommentDTO> list = cservice.getList(bno);
-			return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK);
 		}catch (Exception e){
 			e.printStackTrace();
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -90,7 +90,7 @@ public class BoardController {
 
 		try {
 			cservice.writeComment(commentDTO);
-			return new ResponseEntity<String>("success", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}catch (Exception e){
 			e.printStackTrace();
 			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
