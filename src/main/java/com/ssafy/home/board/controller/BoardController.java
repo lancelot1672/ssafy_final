@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.ssafy.home.board.dto.CommentDTO;
 import com.ssafy.home.board.service.CommentService;
+import com.ssafy.home.member.controller.MemberController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,7 @@ import com.ssafy.home.board.service.BoardService;
 @RestController
 @RequestMapping("/board")
 public class BoardController {
+	public static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	private final BoardService bservice;
 	private final CommentService cservice;
 	@Autowired
@@ -75,10 +79,11 @@ public class BoardController {
 
 	@GetMapping("/comment")
 	public ResponseEntity<?> getCommentList(@RequestParam int bno){
-		System.out.println(bno);
+		logger.info("/board/comment bno: {}", bno);
 		try {
 			List<CommentDTO> list = cservice.getList(bno);
-			return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.BAD_REQUEST);
+			logger.info("comment size : {}", list.size());
+			return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK);
 		}catch (Exception e){
 			e.printStackTrace();
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -87,10 +92,10 @@ public class BoardController {
 	@PostMapping("/comment")
 	public ResponseEntity<?> writeComment(@RequestBody CommentDTO commentDTO){
 		System.out.println("commentDTO = " + commentDTO);
-
+		logger.info("{}", commentDTO);
 		try {
 			cservice.writeComment(commentDTO);
-			return new ResponseEntity<String>("success", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}catch (Exception e){
 			e.printStackTrace();
 			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
