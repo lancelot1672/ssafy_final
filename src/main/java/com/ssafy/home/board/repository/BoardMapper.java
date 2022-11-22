@@ -17,4 +17,7 @@ public interface BoardMapper {
 	public void updateHit(int bno); // 조회수
 	public int modifyBoard(BoardDTO boardDto);
 	public int deleteBoard(int bno);
+
+	public int getTotalCount2(List<String> guguns);
+	public List<BoardDTO> selectList2(@Param("start") int startRow, @Param("cnt") int count, List<String> guguns);
 }

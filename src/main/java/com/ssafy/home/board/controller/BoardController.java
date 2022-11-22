@@ -1,5 +1,6 @@
 package com.ssafy.home.board.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,10 @@ public class BoardController {
 	public ResponseEntity<Map<String, Object>> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "gugun", defaultValue = "종로구") String gugun) {
 		return new ResponseEntity<Map<String, Object>>(bservice.makePage(page, gugun), HttpStatus.ACCEPTED);
 	}
-	
+	@GetMapping("/test")
+	public ResponseEntity<Map<String, Object>> list2(@RequestParam int page, @RequestParam(defaultValue = "종로구") List<String> gugun) {
+		return new ResponseEntity<Map<String, Object>>(bservice.makePage2(page, gugun), HttpStatus.ACCEPTED);
+	}
 	@PostMapping
 	public ResponseEntity<String> write(@RequestBody BoardDTO board){
 		boolean writeResult = bservice.writeBoard(board);
