@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.board.repository.CommentMapper">
+	<select id="selectList" parameterType="int" resultMap="commentDto">
+		select *
+		from comment
+		where bno = #{bno}
+	</select>
+
+	<insert id="insert" parameterType="com.ssafy.home.board.dto.CommentDTO">
+		insert into comment (bno, user_id, ccontent)
+		values (#{bno},#{userId}, #{content})
+	</insert>
+
+	<resultMap id="commentDto" type="com.ssafy.home.board.dto.CommentDTO">
+		<result property="userId" column="user_id"></result>
+		<result property="content" column="ccontent"></result>
+		<result property="writeDate" column="write_date"></result>
+	</resultMap>
+
+</mapper>

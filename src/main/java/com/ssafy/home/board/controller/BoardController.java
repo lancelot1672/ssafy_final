@@ -3,6 +3,8 @@ package com.ssafy.home.board.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.home.board.dto.CommentDTO;
+import com.ssafy.home.board.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +25,14 @@ import com.ssafy.home.board.service.BoardService;
 @RestController
 @RequestMapping("/board")
 public class BoardController {
-	
+	private final BoardService bservice;
+	private final CommentService cservice;
 	@Autowired
-	BoardService bservice;
-	
+	public BoardController(BoardService bservice, CommentService cservice) {
+		this.bservice = bservice;
+		this.cservice = cservice;
+	}
+
 	@GetMapping
 	public ResponseEntity<Map<String, Object>> list(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "gugun", defaultValue = "종로구") String gugun) {
 		return new ResponseEntity<Map<String, Object>>(bservice.makePage(page, gugun), HttpStatus.ACCEPTED);
@@ -66,5 +72,29 @@ public class BoardController {
 		return new ResponseEntity(bservice.deleteBoard(bno), HttpStatus.ACCEPTED);
 
 	}
-	
+
+	@GetMapping("/comment")
+	public ResponseEntity<?> getCommentList(@RequestParam int bno){
+		System.out.println(bno);
+		try {
+			List<CommentDTO> list = cservice.getList(bno);
+			return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.BAD_REQUEST);
+		}catch (Exception e){
+			e.printStackTrace();
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	@PostMapping("/comment")
+	public ResponseEntity<?> writeComment(@RequestBody CommentDTO commentDTO){
+		System.out.println("commentDTO = " + commentDTO);
+
+		try {
+			cservice.writeComment(commentDTO);
+			return new ResponseEntity<String>("success", HttpStatus.BAD_REQUEST);
+		}catch (Exception e){
+			e.printStackTrace();
+			return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }
