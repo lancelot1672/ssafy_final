@@ -9,6 +9,8 @@ import java.util.Map;
 @Mapper
 public interface MemberMapper {
     public int insert(MemberDto memberDto) throws SQLException;
+    public int findById(String userId) throws SQLException;
+
     public MemberDto login(MemberDto memberDto) throws SQLException;
     public MemberDto userInfo(String userid) throws SQLException;
     public int saveRefreshToken(Map<String, String> map) throws SQLException;

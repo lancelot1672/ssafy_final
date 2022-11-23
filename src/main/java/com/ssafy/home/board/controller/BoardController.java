@@ -82,6 +82,7 @@ public class BoardController {
 		logger.info("/board/comment bno: {}", bno);
 		try {
 			List<CommentDTO> list = cservice.getList(bno);
+
 			logger.info("comment size : {}", list.size());
 			return new ResponseEntity<List<CommentDTO>>(list, HttpStatus.OK);
 		}catch (Exception e){
