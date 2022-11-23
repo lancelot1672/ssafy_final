@@ -1,4 +1,4 @@
-package com.ssafy.home.apt.controller;
+package com.ssafy.home.naver.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +49,37 @@ public class NaverController {
         System.out.println(responseBody);
         return responseBody;
 	}
-	
+	@GetMapping("/news")
+	public String news(String keyword) { // 메인 안쪽
+		String clientId = "VWNZOvu3gslKfyEfwwJz"; //애플리케이션 클라이언트 아이디
+		String clientSecret = "tenyS6xFcR"; //애플리케이션 클라이언트 시크릿
+
+		keyword += "+아파트";
+		String text = null;
+		try {
+			text = URLEncoder.encode(keyword, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("검색어 인코딩 실패",e);
+		}
+
+
+		System.out.println("text = " + text);
+		String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text;    // JSON 결과
+
+
+		Map<String, String> requestHeaders = new HashMap<>();
+		requestHeaders.put("X-Naver-Client-Id", clientId);
+		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+		String responseBody = get(apiURL,requestHeaders);
+
+
+//		System.out.println(responseBody);
+//		Map<String, Object> resultMap = new HashMap<>();
+//		resultMap.put("message","success");
+//		resultMap.put("newsInfo",responseBody);
+
+		return responseBody;
+	}
 	private static String get(String apiUrl, Map<String, String> requestHeaders) {
 		HttpURLConnection con = connect(apiUrl);
 		try {
