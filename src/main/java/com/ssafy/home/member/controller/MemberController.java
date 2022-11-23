@@ -72,6 +72,7 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
         try {
+        	logger.info("member : {}", memberDto);
             MemberDto loginUser = memberService.login(memberDto);
             logger.info("loginUser = {}",loginUser);
             if (loginUser != null) {
