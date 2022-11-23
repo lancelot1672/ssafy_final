@@ -65,5 +65,29 @@ public class AptService {
 	public HousedealinfoDTO gethouseRead(long no){
 		return dao.selectOne(no);
 	}
-	
+
+	public long getTotalAmountByDong(String dong){
+		List<HousedealinfoDTO> aptList = dao.selectTotalAmountByDong(dong);
+
+		long total = 0;
+		for(HousedealinfoDTO h : aptList){
+			String amount = h.getDealAmount();
+			int price = Integer.parseInt(amount.replace(",", ""));
+			total += price;
+		}
+		System.out.println("total = " + total);
+		return total / aptList.size();
+	}
+	public long getTotalAmountByGugun(String gugun){
+		List<HousedealinfoDTO> aptList = dao.selectTotalAmountByGugun(gugun);
+
+		long total = 0;
+		for(HousedealinfoDTO h : aptList){
+			String amount = h.getDealAmount();
+			int price = Integer.parseInt(amount.replace(",", ""));
+			total += price;
+		}
+		System.out.println("total = " + total);
+		return total / aptList.size();
+	}
 }

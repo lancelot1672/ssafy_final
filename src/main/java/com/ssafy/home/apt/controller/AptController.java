@@ -80,4 +80,24 @@ public class AptController {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	@GetMapping("/average/dong")
+	public ResponseEntity<?> averageDong(@RequestParam String dong){
+		try {
+			long price = aptService.getTotalAmountByDong(dong);
+			return new ResponseEntity<Long>(price, HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	@GetMapping("/average/gugun")
+	public ResponseEntity<?> averageGugun(@RequestParam String gugun){
+		try {
+			long price = aptService.getTotalAmountByGugun(gugun);
+			return new ResponseEntity<Long>(price, HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 }
