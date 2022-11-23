@@ -24,7 +24,6 @@ public class AptService {
 	}
 
 	public List<BaseaddressDTO> getSidoNames() {
-		System.out.println("test" + dao.selectSidoName());
         return dao.selectSidoName();
     }
 	

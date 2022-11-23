@@ -39,14 +39,11 @@ public class AptController {
 	
 	@GetMapping("/dongName")
 	public ResponseEntity<?> donglist(@RequestParam String sidoName, @RequestParam String gugunName){
-		// System.out.println(aptService.getDongNames(sidoName, gugunName));
 		return new ResponseEntity<List<BaseaddressDTO>>(aptService.getDongNames(sidoName, gugunName), HttpStatus.ACCEPTED);
 	}
 	
 	@GetMapping("/dongCode")
 	public ResponseEntity<?> dongCode(@RequestParam(value="dongName") String dongName,@RequestParam(value="sidoName") String sidoName){
-		System.out.println("dongName : " + dongName);
-		System.out.println("sidoName : " + sidoName);
 		BaseaddressDTO base = new BaseaddressDTO();
 		base.setDongName(dongName);
 		base.setSidoName(sidoName);
@@ -63,7 +60,6 @@ public class AptController {
 
 	@PostMapping("/like")
 	public ResponseEntity<?> like(@RequestBody AptLikeDTO aptLikeDTO){
-		System.out.println("aptLikeDTO = " + aptLikeDTO);
 
 		try {
 			aptLikeService.like(aptLikeDTO);
@@ -75,7 +71,6 @@ public class AptController {
 	}
 	@DeleteMapping("/like/{no}")
 	public ResponseEntity<?> unlike(@PathVariable long no){
-		System.out.println("no = " + no);
 
 		try {
 			aptLikeService.unlike(no);

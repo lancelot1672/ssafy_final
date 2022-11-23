@@ -40,8 +40,7 @@ public class MemberController {
     }
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberDto memberDto) throws Exception {
-        System.out.println(memberDto);
-
+        logger.info("{}",memberDto);
         //회원가입
         int result = memberService.join(memberDto);
         if(result == 1){
@@ -50,6 +49,23 @@ public class MemberController {
             return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/check")
+    public ResponseEntity<?> duplicateCheckUserId(@RequestParam String userId) throws Exception {
+        // 아이디 중복체크
+        try{
+            int result = memberService.duplicateCheckUserId(userId);
+            logger.info("result = {}", result);
+            if(result == 1){
+                return new ResponseEntity<String>("unusable", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<String>("usable", HttpStatus.OK);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(
             @RequestBody MemberDto memberDto) {
@@ -82,7 +98,7 @@ public class MemberController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-    @GetMapping("/{userId}")
+    @GetMapping("/info/{userId}")
     public ResponseEntity<Map<String, Object>> getInfo(
             @PathVariable("userId")  String userId,
             HttpServletRequest request) {
