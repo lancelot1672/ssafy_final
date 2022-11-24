@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.home.member.dto.MemberDto;
-import com.ssafy.home.member.service.repository.MemberMapper;
+import com.ssafy.home.member.repository.MemberMapper;
 
 @Service
 public class MemberService {

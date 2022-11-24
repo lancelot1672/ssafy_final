@@ -1,4 +1,4 @@
-package com.ssafy.home.member.service.repository;
+package com.ssafy.home.member.repository;
 
 import com.ssafy.home.member.dto.MemberDto;
 import org.apache.ibatis.annotations.Mapper;
