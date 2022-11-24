@@ -1,6 +1,5 @@
 package com.ssafy.home.board;
 
-import com.ssafy.home.board.dto.BoardDTO;
 import com.ssafy.home.board.repository.BoardMapper;
 import com.ssafy.home.board.service.BoardService;
 import org.junit.jupiter.api.Test;

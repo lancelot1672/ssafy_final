@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.home.apt.dto.AptLikeDTO;
+import com.ssafy.home.apt.dto.HousedealinfoDTO;
 import com.ssafy.home.apt.service.AptLikeService;
+import com.ssafy.home.member.controller.MemberController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +21,7 @@ import com.ssafy.home.apt.service.AptService;
 @RequestMapping("/home")
 @CrossOrigin(origins = "*")
 public class AptController {
-
+	public static final Logger logger = LoggerFactory.getLogger(AptController.class);
 	private final AptService aptService;
 	private final AptLikeService aptLikeService;
 
@@ -80,11 +84,13 @@ public class AptController {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	@GetMapping("/average/dong")
-	public ResponseEntity<?> averageDong(@RequestParam String dong){
+	@PostMapping("/search")
+	public ResponseEntity<?> selectAllByAptName(@RequestBody HousedealinfoDTO housedealinfoDTO){
+		//최근 3년간 아파트 이름과 동 이름가지고 데이터 검색.
+		logger.info("{}",housedealinfoDTO);
 		try {
-			long price = aptService.getTotalAmountByDong(dong);
-			return new ResponseEntity<Long>(price, HttpStatus.ACCEPTED);
+			List<HousedealinfoDTO> list = aptService.getTotalAmountByDong(housedealinfoDTO);
+			return new ResponseEntity<List<HousedealinfoDTO>>(list, HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
