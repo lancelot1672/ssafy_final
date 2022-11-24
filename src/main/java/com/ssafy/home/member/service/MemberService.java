@@ -1,7 +1,7 @@
 package com.ssafy.home.member.service;
 
 import com.ssafy.home.member.dto.MemberDto;
-import com.ssafy.home.member.repository.MemberMapper;
+import com.ssafy.home.member.service.repository.MemberMapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
