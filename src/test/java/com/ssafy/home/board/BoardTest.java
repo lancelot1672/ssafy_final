@@ -3,7 +3,6 @@ package com.ssafy.home.board;
 import com.ssafy.home.board.dto.BoardDTO;
 import com.ssafy.home.board.repository.BoardMapper;
 import com.ssafy.home.board.service.BoardService;
-import com.ssafy.home.member.repository.MemberMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
