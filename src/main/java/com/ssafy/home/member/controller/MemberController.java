@@ -38,7 +38,8 @@ public class MemberController {
         //회원가입
         int result = memberService.join(memberDto);
         if(result == 1){
-            return new ResponseEntity<String>("success", HttpStatus.OK);
+            return new ResponseEntity<String>("success",
+                    HttpStatus.OK);
         }else{
             return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
         }
@@ -54,7 +55,7 @@ public class MemberController {
             if (loginUser != null) {
                 String accessToken = jwtService.createAccessToken("userid", loginUser.getUserId());// key, data
                 String refreshToken = jwtService.createRefreshToken("userid", loginUser.getUserId());// key, data
-                int result = memberService.saveRefreshToken(memberDto.getUserId(), accessToken);
+                int result = memberService.saveRefreshToken(memberDto.getUserId(), refreshToken);
                 logger.info("SaveRefreshToken result: {}", result);
                 logger.info("로그인 accessToken 정보 : {}", accessToken);
                 logger.info("로그인 refreshToken 정보 : {}", refreshToken);
