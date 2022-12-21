@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.apt.repository.AptLikeMapper">
+	<insert id="insert" parameterType="com.ssafy.home.apt.dto.AptLikeDTO">
+		insert into houselike (user_id, housecode)
+		VALUES (#{userId}, #{houseCode})
+	</insert>
+	<delete id="delete">
+		delete from houselike where no = #{no}
+	</delete>
+	<select id="selectList" resultMap="like">
+		select * from houselike where user_id = #{userId}
+	</select>
+	<resultMap id="like" type="com.ssafy.home.apt.dto.AptLikeDTO">
+		<result column="user_id" property="userId"></result>
+		<result column="housecode" property="houseCode"></result>
+	</resultMap>
+</mapper>

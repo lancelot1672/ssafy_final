@@ -24,7 +24,6 @@ public class AptService {
 	}
 
 	public List<BaseaddressDTO> getSidoNames() {
-		System.out.println("test" + dao.selectSidoName());
         return dao.selectSidoName();
     }
 	
@@ -66,5 +65,22 @@ public class AptService {
 	public HousedealinfoDTO gethouseRead(long no){
 		return dao.selectOne(no);
 	}
-	
+
+	public List<HousedealinfoDTO> getTotalAmountByDong(HousedealinfoDTO housedealinfoDTO){
+		List<HousedealinfoDTO> aptList = dao.selectAllByAptName(housedealinfoDTO);
+
+		return aptList;
+	}
+	public long getTotalAmountByGugun(String gugun){
+		List<HousedealinfoDTO> aptList = dao.selectTotalAmountByGugun(gugun);
+
+		long total = 0;
+		for(HousedealinfoDTO h : aptList){
+			String amount = h.getDealAmount();
+			int price = Integer.parseInt(amount.replace(",", ""));
+			total += price;
+		}
+		System.out.println("total = " + total);
+		return total / aptList.size();
+	}
 }

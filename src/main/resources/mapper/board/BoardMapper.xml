@@ -43,5 +43,26 @@
 	<delete id="deleteBoard" parameterType="int">
 		DELETE FROM QNA_BOARD WHERE BNO = #{bno}
 	</delete>
-
+	<select id="getTotalCount2" parameterType="list" resultType="int">
+		SELECT COUNT(*)
+		FROM QNA_BOARD
+		<if test="guguns != null">
+			WHERE gugun in
+			<foreach collection="guguns" item='gugun' index="i" open="(" close=")" separator=",">
+				#{gugun}
+			</foreach>
+		</if>
+	</select>
+	<select id="selectList2" resultType="com.ssafy.home.board.dto.BoardDTO">
+		SELECT BNO, TITLE, content, user_id, regtime, hit, sido, gugun <!-- 이름이 달라서 write_date, read_count 는 안들어갈 수 있다 => resultMap -->
+		FROM QNA_BOARD
+		<if test="guguns != null">
+			WHERE gugun in
+			<foreach collection="guguns" item='item' index="i" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		ORDER BY BNO DESC
+		LIMIT #{start}, #{cnt}
+		</if>
+	</select>
 </mapper>

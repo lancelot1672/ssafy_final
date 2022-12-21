@@ -50,5 +50,16 @@
 		from housedeal hd, houseinfo hi
 		where hd.aptCode = hi.aptcode and hi.dong = #{dongName}
 	 </select>
-	
+
+	<select id="selectAllByAptName" parameterType="com.ssafy.home.apt.dto.HousedealinfoDTO" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
+		select *
+		from houseview
+		where dealYear between 2019 and 2022 and apartmentName= #{apartmentName} and dongName = #{dongName}
+	</select>
+	<select id="selectTotalAmountByDong" resultType="com.ssafy.home.apt.dto.HousedealinfoDTO">
+		select *
+		from houseview hv
+				 join dongcode dc on hv.dongName = dc.dongName
+		where dc.sidoName = '서울특별시' and hv.dealYear between 2017 and 2022 and hv.dongName = #{ dongName }
+	</select>
 </mapper>

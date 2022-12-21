@@ -26,4 +26,6 @@ public interface AptMapper {
 	public HousedealinfoDTO selectOne(long no);
 
 	public List<HousedealinfoDTO> selectTransportation(String dongName);
+	public List<HousedealinfoDTO> selectAllByAptName(HousedealinfoDTO housedealinfoDTO);
+	public List<HousedealinfoDTO> selectTotalAmountByGugun(String gugunName);
 }

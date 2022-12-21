@@ -1,5 +1,8 @@
 package com.ssafy.home.member.controller;
 
+import com.ssafy.home.apt.dto.AptLikeDTO;
+import com.ssafy.home.apt.service.AptLikeService;
+import com.ssafy.home.apt.service.AptService;
 import com.ssafy.home.member.dto.MemberDto;
 import com.ssafy.home.member.service.JwtService;
 import com.ssafy.home.member.service.MemberService;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,20 +25,22 @@ public class MemberController {
     public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final MemberService memberService;
+    private final AptLikeService aptService;
+
     private final JwtService jwtService;
 
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
     @Autowired
-    public MemberController(MemberService memberService, JwtService jwtService) {
+    public MemberController(MemberService memberService, AptLikeService aptService, JwtService jwtService) {
         this.memberService = memberService;
+        this.aptService = aptService;
         this.jwtService = jwtService;
     }
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberDto memberDto) throws Exception {
-        System.out.println(memberDto);
-
+        logger.info("{}",memberDto);
         //회원가입
         int result = memberService.join(memberDto);
         if(result == 1){
@@ -44,12 +50,30 @@ public class MemberController {
             return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
         }
     }
+    @GetMapping("/check")
+    public ResponseEntity<?> duplicateCheckUserId(@RequestParam String userId) throws Exception {
+        // 아이디 중복체크
+        try{
+            int result = memberService.duplicateCheckUserId(userId);
+            logger.info("result = {}", result);
+            if(result == 1){
+                return new ResponseEntity<String>("unusable", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<String>("usable", HttpStatus.OK);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(
             @RequestBody MemberDto memberDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = null;
         try {
+        	logger.info("member : {}", memberDto);
             MemberDto loginUser = memberService.login(memberDto);
             logger.info("loginUser = {}",loginUser);
             if (loginUser != null) {
@@ -75,7 +99,7 @@ public class MemberController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
-    @GetMapping("/{userId}")
+    @GetMapping("/info/{userId}")
     public ResponseEntity<Map<String, Object>> getInfo(
             @PathVariable("userId")  String userId,
             HttpServletRequest request) {
@@ -85,15 +109,22 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         if (jwtService.checkToken(request.getHeader("access-token"))) {
-            logger.debug("사용 가능한 토큰!!!");
+            logger.info("사용 가능한 토큰!!!");
             try {
 //				로그인 사용자 정보.
                 MemberDto memberDto = memberService.userInfo(userId);
+
+                //관심 매물 정보
+                List<AptLikeDTO> likeList = aptService.getLikeList(userId);
+                System.out.println(likeList.toString());
                 resultMap.put("userInfo", memberDto);
+                resultMap.put("aptLike", likeList);
                 resultMap.put("message", SUCCESS);
+
                 status = HttpStatus.ACCEPTED;
             } catch (Exception e) {
 //                logger.error("정보조회 실패 : {}", e);
+                e.printStackTrace();
                 resultMap.put("message", e.getMessage());
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
@@ -125,5 +156,21 @@ public class MemberController {
             status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+    @GetMapping("/logout/{userid}")
+    public ResponseEntity<?> removeToken(@PathVariable("userid") String userid) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        try {
+            memberService.deleRefreshToken(userid);
+            resultMap.put("message", SUCCESS);
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            logger.error("로그아웃 실패 : {}", e);
+            resultMap.put("message", e.getMessage());
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
     }
 }

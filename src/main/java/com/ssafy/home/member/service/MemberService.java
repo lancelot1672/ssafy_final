@@ -1,30 +1,50 @@
 package com.ssafy.home.member.service;
 
-import com.ssafy.home.member.dto.MemberDto;
-import com.ssafy.home.member.repository.MemberMapper;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.ssafy.home.member.dto.MemberDto;
+import com.ssafy.home.member.repository.MemberMapper;
 
 @Service
 public class MemberService {
 
-    @Autowired
     private SqlSession sqlSession;
-
-    public int join(MemberDto memberDto) throws Exception {
-        return sqlSession.getMapper(MemberMapper.class).insert(memberDto);
+    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    public MemberService(SqlSession sqlSession, PasswordEncoder passwordEncoder) {
+        this.sqlSession = sqlSession;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    public int join(MemberDto memberDto) throws Exception {
+        //비밀번호 암호화
+        String password = memberDto.getUserPw();
+        String enPw = passwordEncoder.encode(password);
+        memberDto.setUserPw(enPw);
+
+        //DB
+        return sqlSession.getMapper(MemberMapper.class).insert(memberDto);
+    }
+    public int duplicateCheckUserId(String userId) throws Exception{
+        return sqlSession.getMapper(MemberMapper.class).findById(userId);
+    }
     public MemberDto login(MemberDto memberDto) throws Exception {
         if (memberDto.getUserId() == null || memberDto.getUserPw() == null)
             return null;
-        return sqlSession.getMapper(MemberMapper.class).login(memberDto);
-    }
 
+        MemberDto loginMember = sqlSession.getMapper(MemberMapper.class).login(memberDto);
+        if(loginMember != null && passwordEncoder.matches(memberDto.getUserPw(), loginMember.getUserPw())){
+            return loginMember;
+        }else{
+            return null;
+        }
+    }
     public MemberDto userInfo(String userid) throws Exception {
         return sqlSession.getMapper(MemberMapper.class).userInfo(userid);
     }

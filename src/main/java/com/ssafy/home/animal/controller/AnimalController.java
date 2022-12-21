@@ -2,6 +2,9 @@ package com.ssafy.home.animal.controller;
 
 import com.ssafy.home.animal.dto.AnimalHosDTO;
 import com.ssafy.home.animal.service.AnimalService;
+import com.ssafy.home.member.controller.MemberController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class AnimalController {
     private final AnimalService animalService;
-
+    public static final Logger logger = LoggerFactory.getLogger(AnimalController.class);
     @Autowired
     public AnimalController(AnimalService animalService) {
         this.animalService = animalService;
